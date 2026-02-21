@@ -3,33 +3,39 @@ cask "ployz" do
   name "ployz"
   desc "Ployz CLI, daemon, and runtime"
   homepage "https://github.com/getployz/ployz"
-  version "0.1.0-alpha.3"
+  version "0.1.0-alpha.4"
 
   livecheck do
     skip "Auto-generated on release."
   end
 
   binary "ployz"
+  depends_on cask: [
+      "docker",
+    ],
+    formula: [
+      "wireguard-tools",
+    ]
 
   on_macos do
     on_intel do
       url "https://github.com/getployz/ployz/releases/download/v#{version}/ployz_#{version}_darwin_amd64.tar.gz"
-      sha256 "d78d8106550dd5ec3afad018ea23f26688a316c145c6292e3f7ace962b1cfcd0"
+      sha256 "a2067f91dbab1271c5271105aad1bfd2e19fed0c9d5d888b3e3a6e3e375746be"
     end
     on_arm do
       url "https://github.com/getployz/ployz/releases/download/v#{version}/ployz_#{version}_darwin_arm64.tar.gz"
-      sha256 "6326d161b789806afeec811b9d06ab38dd5f2e5830f987006caa949b031f6733"
+      sha256 "343d220b4ed9c2fe583120ccb9689a2d38878ebac8c19524a27bbb7f46216d5f"
     end
   end
 
   on_linux do
     on_intel do
       url "https://github.com/getployz/ployz/releases/download/v#{version}/ployz_#{version}_linux_amd64.tar.gz"
-      sha256 "f9cf4244c7c0b9d099bf9f4360720986952f4a040dcb3c0aa51e6d213440d10c"
+      sha256 "b8d7fb9662926c19ba94c15b9e3da2b03bf06b9090cc90ed8a2d07788723188a"
     end
     on_arm do
       url "https://github.com/getployz/ployz/releases/download/v#{version}/ployz_#{version}_linux_arm64.tar.gz"
-      sha256 "e1d00a9af55325fc602b868d88ccf62be02bc5d75cb4b549fefc30d54b55bf9f"
+      sha256 "f1fab3f7f35a525eabfe0fa4093cd271779c0a17177491f8b5679c4fe9a08453"
     end
   end
 
@@ -39,16 +45,6 @@ cask "ployz" do
         system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/#{b}"]
       end
     end
-  end
-
-  caveats do
-    "The cask installs three binaries:"
-    "  - ployz"
-    "  - ployzd"
-    "  - ployz-runtime"
-    ""
-    "To run daemon and runtime together in user mode:"
-    "  ployz dev run"
   end
 
   # No zap stanza required
