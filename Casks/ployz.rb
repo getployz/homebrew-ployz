@@ -3,7 +3,7 @@ cask "ployz" do
   name "ployz"
   desc "Ployz CLI, daemon, and runtime"
   homepage "https://github.com/getployz/ployz"
-  version "0.1.0-alpha.10"
+  version "0.1.0-alpha.9"
 
   livecheck do
     skip "Auto-generated on release."
@@ -20,22 +20,22 @@ cask "ployz" do
   on_macos do
     on_intel do
       url "https://github.com/getployz/ployz/releases/download/v#{version}/ployz_#{version}_darwin_amd64.tar.gz"
-      sha256 "c732b66c331f24956d6459f17b47d0b1e2b4e9a8b90a4598bfa01e7b8848801f"
+      sha256 "f8e6836bc8482d22803c79760bc74772d00b347e2f373800b7c20c969cc0a184"
     end
     on_arm do
       url "https://github.com/getployz/ployz/releases/download/v#{version}/ployz_#{version}_darwin_arm64.tar.gz"
-      sha256 "2775a66e6950330c36048f131d444cc87287982e3b2711858cc0e6c80922195b"
+      sha256 "778e13cdcf0fb87cc8ff4d274b113e282c003306d9d467dc7d0cb6991c31d593"
     end
   end
 
   on_linux do
     on_intel do
       url "https://github.com/getployz/ployz/releases/download/v#{version}/ployz_#{version}_linux_amd64.tar.gz"
-      sha256 "225577c12c24adf4353dd26c24836966acb792e9e8a748e456d2c735971d8ae4"
+      sha256 "db71fd3b2e8a8d13a4df88ac77e62dd41ab8ed10409c259b645a82e4ecf85134"
     end
     on_arm do
       url "https://github.com/getployz/ployz/releases/download/v#{version}/ployz_#{version}_linux_arm64.tar.gz"
-      sha256 "4659ec840daa3845961a7b7891d8581ec407109a5d011270945d4025c3b3e5c9"
+      sha256 "bd0acb8741ff3041553757afd65cdc27b5b1e06713cb448b338e878b20bb0890"
     end
   end
 
