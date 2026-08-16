@@ -1,0 +1,105 @@
+name: Sync formula
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: ployz2 release tag
+        required: false
+  schedule:
+    - cron: "17 * * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.inputs.tag }}
+        run: |
+          set -euo pipefail
+          if [ -z "${TAG:-}" ]; then
+            TAG=$(gh api repos/getployz/ployz2/releases/latest --jq .tag_name)
+          fi
+          version=${TAG#v}
+          tmp=$(mktemp -d)
+          gh release download "$TAG" --repo getployz/ployz2 --pattern checksums.txt --dir "$tmp"
+          hash() { awk -v name="$1" '$2 == name { print $1; exit }' "$tmp/checksums.txt"; }
+          linux_amd64=$(hash ployz_linux_amd64.tar.gz)
+          linux_arm64=$(hash ployz_linux_arm64.tar.gz)
+          macos_amd64=$(hash ployz_macos_amd64.tar.gz)
+          macos_arm64=$(hash ployz_macos_arm64.tar.gz)
+          test -n "$linux_amd64" && test -n "$linux_arm64" && test -n "$macos_amd64" && test -n "$macos_arm64"
+          cat > Formula/ployz.rb <<EOF
+          # typed: false
+          # frozen_string_literal: true
+
+          class Ployz < Formula
+            desc "Ployz CLI"
+            homepage "https://github.com/getployz/ployz2"
+            version "$version"
+
+            on_macos do
+              if Hardware::CPU.intel?
+                url "https://github.com/getployz/ployz2/releases/download/${TAG}/ployz_macos_amd64.tar.gz"
+                sha256 "$macos_amd64"
+
+                def install
+                  bin.install "ployz"
+                end
+              end
+              if Hardware::CPU.arm?
+                url "https://github.com/getployz/ployz2/releases/download/${TAG}/ployz_macos_arm64.tar.gz"
+                sha256 "$macos_arm64"
+
+                def install
+                  bin.install "ployz"
+                end
+              end
+            end
+
+            on_linux do
+              if Hardware::CPU.intel?
+                if Hardware::CPU.is_64_bit?
+                  url "https://github.com/getployz/ployz2/releases/download/${TAG}/ployz_linux_amd64.tar.gz"
+                  sha256 "$linux_amd64"
+
+                  def install
+                    bin.install "ployz"
+                  end
+                end
+              end
+              if Hardware::CPU.arm?
+                if Hardware::CPU.is_64_bit?
+                  url "https://github.com/getployz/ployz2/releases/download/${TAG}/ployz_linux_arm64.tar.gz"
+                  sha256 "$linux_arm64"
+
+                  def install
+                    bin.install "ployz"
+                  end
+                end
+              end
+            end
+
+            def caveats
+              <<~EOS
+                This formula replaces the older getployz/ployz implementation as a clean break
+                with manual transition, not an in-place compatibility promise.
+              EOS
+            end
+          end
+          EOF
+          # The heredoc above was indented by the YAML block; rewrite without leading spaces.
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('Formula/ployz.rb')
+          text = p.read_text()
+          lines = text.splitlines(True)
+          stripped = []
+          for line in lines:
+              stripped.append(line[10:] if line.startswith(' ' * 10) else line.lstrip(' ') if False else line)
+          PY
