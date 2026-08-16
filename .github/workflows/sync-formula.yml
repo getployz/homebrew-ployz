@@ -93,13 +93,8 @@ jobs:
             end
           end
           EOF
-          # The heredoc above was indented by the YAML block; rewrite without leading spaces.
-          python3 - <<'PY'
-          from pathlib import Path
-          p = Path('Formula/ployz.rb')
-          text = p.read_text()
-          lines = text.splitlines(True)
-          stripped = []
-          for line in lines:
-              stripped.append(line[10:] if line.startswith(' ' * 10) else line.lstrip(' ') if False else line)
-          PY
+          git add Formula/ployz.rb
+          git diff --cached --quiet && exit 0
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit -m "Release $TAG as a clean break"
+          git push
