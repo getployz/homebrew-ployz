@@ -3,55 +3,37 @@
 
 class Ployz < Formula
   desc "Ployz CLI"
-  homepage "https://github.com/getployz/ployz2"
-  version "0.1.1"
+  homepage "https://github.com/getployz/ployz"
+  version "0.2.0"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/getployz/ployz2/releases/download/v0.1.1/ployz_macos_amd64.tar.gz"
-      sha256 "6d5cfb914a6e473e1887bdba6b03b48c96ffcb742ef50053e9e38c24b6bb74e1"
-
-      def install
-        bin.install "ployz"
-      end
+      url "https://github.com/getployz/ployz/releases/download/v0.2.0/ployz_macos_amd64.tar.gz"
+      sha256 "3c7250c6d46d803b03929c1cf7a5b4aa60ed18ed87d9e782542f7868a30e9c6d"
     end
     if Hardware::CPU.arm?
-      url "https://github.com/getployz/ployz2/releases/download/v0.1.1/ployz_macos_arm64.tar.gz"
-      sha256 "c297161151851275293a0ae57ae6358360863a411f944a6c81a743d24fb9d70c"
-
-      def install
-        bin.install "ployz"
-      end
+      url "https://github.com/getployz/ployz/releases/download/v0.2.0/ployz_macos_arm64.tar.gz"
+      sha256 "9f8b0fc375906fa05c8dbcd778726c553a487a0f20a570e66c51be3b87f0b63e"
     end
   end
 
   on_linux do
     if Hardware::CPU.intel?
       if Hardware::CPU.is_64_bit?
-        url "https://github.com/getployz/ployz2/releases/download/v0.1.1/ployz_linux_amd64.tar.gz"
-        sha256 "aefd978b15db338314a9fbdaed710ca0e90cf52313dfa065acd91f348bc23a7c"
-
-        def install
-          bin.install "ployz"
-        end
+        url "https://github.com/getployz/ployz/releases/download/v0.2.0/ployz_linux_amd64.tar.gz"
+        sha256 "fb19327882bced27652948719db26ec006ea6f0bcdeb8e699da3d2d8ec2c2d51"
       end
     end
     if Hardware::CPU.arm?
       if Hardware::CPU.is_64_bit?
-        url "https://github.com/getployz/ployz2/releases/download/v0.1.1/ployz_linux_arm64.tar.gz"
-        sha256 "69228f6e8f01c1f00826d35c142c0d88baf61d39f5eb1e0d657061666ca9958b"
-
-        def install
-          bin.install "ployz"
-        end
+        url "https://github.com/getployz/ployz/releases/download/v0.2.0/ployz_linux_arm64.tar.gz"
+        sha256 "3d092c596c5f3de1d530f243313de187cd1c070d66aed71e6ecaa4bdb760402e"
       end
     end
   end
 
-  def caveats
-    <<~EOS
-      This formula replaces the older getployz/ployz implementation as a clean break
-      with manual transition, not an in-place compatibility promise.
-    EOS
+  def install
+    bin.install "ployz"
   end
+
 end
