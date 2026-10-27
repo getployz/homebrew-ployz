@@ -4,30 +4,30 @@
 class Ployz < Formula
   desc "Ployz CLI"
   homepage "https://github.com/getployz/ployz"
-  version "0.3.5"
+  version "0.3.6"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/getployz/ployz/releases/download/v0.3.5/ployz_macos_amd64.tar.gz"
-      sha256 "1cbd0b315d360a3dd02f96dad8ebc1ec2554b3776de790cda2f2582ceb038098"
+      url "https://github.com/getployz/ployz/releases/download/v0.3.6/ployz_macos_amd64.tar.gz"
+      sha256 "1173c8d18275aa1b2b4585a3e04974944f80b18e97e15ce4c7c31f75b3fe240b"
     end
     if Hardware::CPU.arm?
-      url "https://github.com/getployz/ployz/releases/download/v0.3.5/ployz_macos_arm64.tar.gz"
-      sha256 "e191d9a00e9fe19a411f22c0ab84723edde1a42609d4561ab2bef8800c525d17"
+      url "https://github.com/getployz/ployz/releases/download/v0.3.6/ployz_macos_arm64.tar.gz"
+      sha256 "f96af16064ff7ecf5a0d0ad1783da4e13dd6a13ee5e0cbaa0cca5febf815271d"
     end
   end
 
   on_linux do
     if Hardware::CPU.intel?
       if Hardware::CPU.is_64_bit?
-        url "https://github.com/getployz/ployz/releases/download/v0.3.5/ployz_linux_amd64.tar.gz"
-        sha256 "e376d75c4db511c397c885d418f942622b55c1ce0d385b9029fae10b0992818c"
+        url "https://github.com/getployz/ployz/releases/download/v0.3.6/ployz_linux_amd64.tar.gz"
+        sha256 "0ed941dee3df50fdb3bc0d773e05158c6e49b990eea80e43c1407619011677e2"
       end
     end
     if Hardware::CPU.arm?
       if Hardware::CPU.is_64_bit?
-        url "https://github.com/getployz/ployz/releases/download/v0.3.5/ployz_linux_arm64.tar.gz"
-        sha256 "ba98a886a778ab7cce7416a370892be2b75260014b49b10c7a29c034c7f11c89"
+        url "https://github.com/getployz/ployz/releases/download/v0.3.6/ployz_linux_arm64.tar.gz"
+        sha256 "88cea2823e25b602e2523a9aeef98e841a8c6e8e6839f35b6377bbd161726277"
       end
     end
   end
